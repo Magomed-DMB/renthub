@@ -10,7 +10,6 @@ yarn-error.log*
 .env.production
 
 # Загрузки
-uploads/*
 !uploads/.gitkeep
 
 # Логи
