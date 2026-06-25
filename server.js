@@ -1,8 +1,13 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -20,22 +25,14 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Маршрут для проверки работоспособности
+// ✅ Раздача изображений из папки uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Проверка работоспособности
 app.get('/', (req, res) => {
   res.json({
     status: 'ok',
-    message: 'RentHub API работает!',
-    version: '1.0.0',
-    timestamp: new Date().toISOString()
-  });
-});
-
-// ✅ Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({
-    status: 'healthy',
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString()
+    message: 'RentHub API работает!'
   });
 });
 
@@ -56,16 +53,7 @@ app.use('/api/admin', authRouter);
 app.use((req, res) => {
   res.status(404).json({
     error: 'Not Found',
-    message: `Маршрут ${req.method} ${req.url} не найден`,
-    availableRoutes: [
-      'GET /',
-      'GET /health',
-      'GET /api/categories',
-      'GET /api/products',
-      'GET /api/settings',
-      'GET /api/messengers',
-      'POST /api/admin/login'
-    ]
+    message: `Маршрут ${req.method} ${req.url} не найден`
   });
 });
 
