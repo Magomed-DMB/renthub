@@ -1,8 +1,28 @@
+# Зависимости
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Переменные окружения
 .env
 .env.local
-.env.example
+.env.production
+
+# Загрузки
 uploads/*
 !uploads/.gitkeep
+
+# Логи
 *.log
+logs/
+
+# OS
 .DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
